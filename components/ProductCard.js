@@ -4,13 +4,13 @@ export default function ProductCard({ product }) {
   const { title, description, price, thumbnail, rating } = product;
 
   return (
-    <Link href={`/products/${product.id}`} passHref>
+    <Link href={`/product/${product.id}`} passHref>
       <div className="border rounded-lg overflow-hidden shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl">
         {/* Image */}
         <img
           src={thumbnail}
           alt={title}
-          className="w-full h-48 object-cover transition duration-300 hover:opacity-90"
+          className="w-full h-48 object-contain transition duration-300 hover:opacity-90"
         />
 
         {/* Content */}

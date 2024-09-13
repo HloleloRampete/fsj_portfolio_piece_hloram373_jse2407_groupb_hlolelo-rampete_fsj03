@@ -1,4 +1,3 @@
-// app/page.js
 import { fetchProducts } from '@/lib/products/api'
 import ProductGrid from '@/components/ProductGrid'
 import Pagination from '@/components/Pagination'

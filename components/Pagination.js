@@ -1,5 +1,3 @@
-// components/Pagination.js
-
 'use client'
 export default function Pagination({ currentPage, totalProducts, productsPerPage }) {
     const totalPages = Math.ceil(totalProducts / productsPerPage)

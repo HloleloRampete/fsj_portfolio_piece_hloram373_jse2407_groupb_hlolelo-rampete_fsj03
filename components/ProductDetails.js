@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
+import Gallery from '@/components/Gallery';
 
 export default function ProductDetails({ product }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { 
     title, 
     description, 
@@ -17,18 +16,6 @@ export default function ProductDetails({ product }) {
     reviews 
   } = product;
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
   return (
     <div className="p-6">
       <Link href="/" className="text-blue-500 hover:underline mb-4 inline-block">
@@ -36,25 +23,7 @@ export default function ProductDetails({ product }) {
       </Link>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image Gallery */}
-        <div>
-          {images && images.length > 0 ? (
-            <div>
-              <img 
-                src={images[currentImageIndex]} 
-                alt={`Product image ${currentImageIndex + 1}`}
-                className="w-full h-64 object-contain mb-4"
-              />
-              {images.length > 1 && (
-                <div className="flex justify-between">
-                  <button onClick={handlePrevImage} className="bg-blue-500 text-white px-4 py-2 rounded">Previous</button>
-                  <button onClick={handleNextImage} className="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div>No images available for this product.</div>
-          )}
-        </div>
+        <Gallery images={images} />
 
         {/* Product Details */}
         <div>
@@ -83,26 +52,35 @@ export default function ProductDetails({ product }) {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
         {reviews && reviews.length > 0 ? (
-          <ul>
+          <ul className="space-y-6">
             {reviews.map((review, index) => (
-              <li key={index} className="mb-6 p-4 border rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="font-bold">{review.name}</p>
-                  <p className="text-sm text-gray-500">{new Date(review.date).toLocaleDateString()}</p>
+              <li key={index} className="border rounded-lg p-4 bg-gray-50">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="font-semibold text-lg">{review.name}</h3>
+                    <p className="text-sm text-gray-500">
+                      {new Date(review.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span key={i} className={i < review.rating ? 'text-yellow-400' : 'text-gray-300'}>
+                        ★
+                      </span>
+                    ))}
+                    <span className="ml-2 text-sm text-gray-600">{review.rating}/5</span>
+                  </div>
                 </div>
-                <p className="mb-2">{review.comment}</p>
-                <div className="flex items-center">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <span key={i} className={i < review.rating ? 'text-yellow-400' : 'text-gray-300'}>
-                      ★
-                    </span>
-                  ))}
-                </div>
+                <p className="text-gray-700 mt-2">{review.comment}</p>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No reviews yet for this product.</p>
+          <p className="text-gray-500 italic">No reviews yet for this product.</p>
         )}
       </div>
     </div>

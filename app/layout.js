@@ -2,7 +2,7 @@ import NavBar from "@/components/NavBar";
 import './globals.css'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'MandoZA E-commerce Store',
   description: 'Find the best products at the best prices',
 }

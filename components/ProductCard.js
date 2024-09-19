@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ProductCard({ product }) {
   const { id, title, description, price, images, rating, category } = product;
@@ -26,10 +27,12 @@ export default function ProductCard({ product }) {
       <div className="border rounded-lg overflow-hidden shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl">
         {/* Image with controls */}
         <div className="relative">
-          <img
+        <Image
             src={images[currentImageIndex]}
             alt={title}
-            className="w-full h-48 object-contain transition duration-300 hover:opacity-90"
+            layout="fill"
+            objectFit="contain"
+            className="transition duration-300 hover:opacity-90"
           />
           {images.length > 1 && (
             <>

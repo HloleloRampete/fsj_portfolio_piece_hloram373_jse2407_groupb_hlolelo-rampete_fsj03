@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
 
 export default function ProductDetails({ product }) {
+  const [reviewSort, setReviewSort] = useState('date');
   const { 
     title, 
     description, 
@@ -15,6 +17,14 @@ export default function ProductDetails({ product }) {
     stock, 
     reviews 
   } = product;
+
+  const sortedReviews = [...reviews].sort((a, b) => {
+    if (reviewSort === 'date') {
+      return new Date(b.date) - new Date(a.date);
+    } else {
+      return b.rating - a.rating;
+    }
+  });
 
   return (
     <div className="p-8 bg-white rounded-lg shadow-lg max-w-5xl mx-auto">
@@ -54,12 +64,23 @@ export default function ProductDetails({ product }) {
         </div>
       </div>
 
+
       {/* Reviews Section */}
       <div className="mt-16">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Customer Reviews</h2>
-        {reviews && reviews.length > 0 ? (
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Customer Reviews</h2>
+          <select
+            value={reviewSort}
+            onChange={(e) => setReviewSort(e.target.value)}
+            className="p-2 border rounded"
+          >
+            <option value="date">Sort by Date</option>
+            <option value="rating">Sort by Rating</option>
+          </select>
+        </div>
+        {sortedReviews && sortedReviews.length > 0 ? (
           <ul className="space-y-6">
-            {reviews.map((review, index) => (
+            {sortedReviews.map((review, index) => (
               <li key={index} className="p-6 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
                 <div className="flex justify-between items-start mb-4">
                   <div>

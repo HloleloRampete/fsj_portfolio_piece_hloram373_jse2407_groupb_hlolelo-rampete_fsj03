@@ -1,27 +1,39 @@
-import { fetchProducts } from '@/lib/products/api';
+import { fetchProducts } from '@/lib/api';
 import ProductGrid from '@/components/ProductGrid';
-import Pagination from '@/components/Pagination';
 
 export default async function HomePage({ searchParams }) {
   const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 1;
   const productsPerPage = 20;
-  const skip = 0;
+  const skip = (currentPage - 1) * productsPerPage;
 
-  // Fetch products with skip
-  const { products, total } = await fetchProducts(productsPerPage, skip);
+  try {
+    const { products, total, categories } = await fetchProducts({
+      limit: productsPerPage,
+      skip,
+      search: searchParams.search,
+      category: searchParams.category,
+      sortBy: searchParams.sortBy
+    });
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Centering the "Our Products" text */}
-      <h1 className="text-3xl font-bold mb-8 text-center">Our Products</h1>
-      
-      <ProductGrid products={products} />
-      
-      <Pagination
-        currentPage={currentPage}
-        totalProducts={total}
-        productsPerPage={productsPerPage}
-      />
-    </div>
-  );
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 text-center">Our Products</h1>
+        
+        <ProductGrid 
+          initialProducts={products}
+          initialTotal={total}
+          initialCategories={categories}
+          initialFilters={{
+            search: searchParams.search || '',
+            category: searchParams.category || '',
+            sortBy: searchParams.sortBy || '',
+            page: currentPage
+          }}
+        />
+      </div>
+    );
+  } catch (error) {
+    console.error('Error fetching initial products:', error);
+    return <div className="text-red-500">Failed to load products. Please try again later.</div>;
+  }
 }

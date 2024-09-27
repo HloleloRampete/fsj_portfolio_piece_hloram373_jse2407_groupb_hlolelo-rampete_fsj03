@@ -2,28 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import ProductCard from './ProductCard';
 import LoadingSpinner from './LoadingSpinner';
 import Pagination from './Pagination';
-import { fetchProducts } from '@/lib/products/api';
+import { fetchProducts } from '@/lib/api';
 
-export default function ProductGrid() {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function ProductGrid({ initialProducts, initialTotal, initialCategories, initialFilters }) {
+    const [products, setProducts] = useState(initialProducts);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [totalProducts, setTotalProducts] = useState(0);
-    const [categories, setCategories] = useState([]);
+    const [totalProducts, setTotalProducts] = useState(initialTotal);
+    const [categories, setCategories] = useState(initialCategories);
     const productsPerPage = 20;
 
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const [filters, setFilters] = useState({
-        search: '',
-        category: '',
-        sortBy: '',
-        page: 1
-    });
+    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         const page = parseInt(searchParams.get('page')) || 1;
@@ -108,7 +104,7 @@ export default function ProductGrid() {
                     className="p-2 border rounded mr-4"
                 >
                     <option value="">All Categories</option>
-                    {categories.map((category) => (
+                    {categories && categories.map((category) => (
                         <option key={category} value={category}>
                             {category}
                         </option>

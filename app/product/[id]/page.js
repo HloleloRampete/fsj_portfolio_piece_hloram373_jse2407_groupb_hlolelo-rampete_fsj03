@@ -1,22 +1,27 @@
-import { fetchProductById } from '@/lib/product/api';
+import { fetchProductById } from '@/lib/api';
 import ProductDetails from '@/components/ProductDetails';
-import { Metadata } from 'next'
 
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const product = await fetchProductById(params.id)
-  return {
-    title: `${product.title} | MandoZA`,
-    description: product.description,
+export async function generateMetadata({ params }) {
+  try {
+    const product = await fetchProductById(params.id)
+    return {
+      title: `${product.title} | MandoZA`,
+      description: product.description,
+    }
+  } catch (error) {
+    return {
+      title: 'Product Not Found | MandoZA',
+      description: 'The requested product could not be found.',
+    }
   }
 }
 
 export default async function ProductPage({ params }) {
   const { id } = params;
-  const product = await fetchProductById(id);
-
-  if (!product) {
+  try {
+    const product = await fetchProductById(id);
+    return <ProductDetails product={product} />;
+  } catch (error) {
     return <div className="text-red-500">Failed to load product details.</div>;
   }
-
-  return <ProductDetails product={product} />;
 }

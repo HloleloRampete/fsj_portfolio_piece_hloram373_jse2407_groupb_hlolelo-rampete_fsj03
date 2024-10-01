@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
+import Gallery from './Gallery';
 
 export default function ProductCard({ product }) {
   const { id, title, description, price, images, rating, category } = product;
@@ -27,14 +28,15 @@ export default function ProductCard({ product }) {
       <div className="border rounded-lg overflow-hidden shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl">
         {/* Image with controls */}
         <div className="relative">
-        <Image
-            src={images[currentImageIndex]}
+        {/* <Image
+            src={images}
             alt={title}
             layout="fill"
             objectFit="contain"
             className="transition duration-300 hover:opacity-90"
-          />
-          {images.length > 1 && (
+          /> */}
+          <Gallery images={images} />
+          {/* {images.length > 1 && (
             <>
               <button
                 onClick={handlePrevImage}
@@ -59,7 +61,7 @@ export default function ProductCard({ product }) {
                 ))}
               </div>
             </>
-          )}
+          )} */}
         </div>
 
         {/* Content */}

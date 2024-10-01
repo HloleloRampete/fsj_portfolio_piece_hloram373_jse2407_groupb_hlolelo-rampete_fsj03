@@ -1,18 +1,19 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
 
 export default function Gallery({ images }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const handlePrevious = () => {
-    setSelectedImageIndex((prevIndex) => 
+    setSelectedImageIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
   const handleNext = () => {
-    setSelectedImageIndex((prevIndex) => 
+    setSelectedImageIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -24,21 +25,29 @@ export default function Gallery({ images }) {
   return (
     <div className="gallery">
       <div className="main-image relative">
-        <img 
-          src={images[selectedImageIndex]} 
-          alt={`Product image ${selectedImageIndex + 1}`} 
+        <Image
+          width={300}
+          height={300}
+          src={images[selectedImageIndex]}
+          alt={`Product image ${selectedImageIndex + 1}`}
           className="w-full h-auto object-contain max-h-96"
         />
         {images.length > 1 && (
           <>
-            <button 
-              onClick={handlePrevious} 
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handlePrevious();
+              }}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2"
             >
               &#10094;
             </button>
-            <button 
-              onClick={handleNext} 
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleNext();
+              }}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2"
             >
               &#10095;
@@ -47,14 +56,23 @@ export default function Gallery({ images }) {
         )}
       </div>
       {images.length > 1 && (
-        <div className="thumbnail-list flex space-x-2 mt-4 overflow-x-auto">
+        <div className="thumbnail-list flex space-x-2 justify-center items-center mt-4 overflow-x-auto">
           {images.map((image, index) => (
-            <img
+            <Image
               key={index}
               src={image}
+              width={50}
+              height={50}
               alt={`Product thumbnail ${index + 1}`}
-              onClick={() => setSelectedImageIndex(index)}
-              className={`thumbnail cursor-pointer w-20 h-20 object-cover ${selectedImageIndex === index ? 'border-2 border-blue-500' : 'border'}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedImageIndex(index);
+              }}
+              className={`thumbnail cursor-pointer w-16 h-16 object-contain ${
+                selectedImageIndex === index
+                  ? "border-2 border-blue-500"
+                  : "border"
+              }`}
             />
           ))}
         </div>

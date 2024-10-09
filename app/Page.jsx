@@ -1,39 +1,25 @@
-import { fetchProducts } from '@/lib/api';
-import ProductGrid from '@/components/ProductGrid';
+import ProductGrid from "../components/ProductGrid";
+import { Suspense } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-export default async function HomePage({ searchParams }) {
-  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  const productsPerPage = 20;
-  const skip = (currentPage - 1) * productsPerPage;
-
-  try {
-    const { products, total, categories } = await fetchProducts({
-      limit: productsPerPage,
-      skip,
-      search: searchParams.search,
-      category: searchParams.category,
-      sortBy: searchParams.sortBy
-    });
-
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">Our Products</h1>
-        
-        <ProductGrid 
-          initialProducts={products}
-          initialTotal={total}
-          initialCategories={categories}
-          initialFilters={{
-            search: searchParams.search || '',
-            category: searchParams.category || '',
-            sortBy: searchParams.sortBy || '',
-            page: currentPage
-          }}
-        />
+export const metadata = {
+  title: "FluxStore - Online Shopping | SA's online store",
+  description:
+    "Discover a wide range of products at FluxStore. From electronics to fashion, find everything you need at great prices.",
+};
+/**
+ * Home page component.
+ * @returns {JSX.Element} The home page structure with a ProductGrid.
+ */
+export default function Home() {
+  return (
+    // Main content area with styling for minimum height, padding, and background
+    <main className="min-h-screen px-4 bg-gray-100 text-gray-900 transition-colors duration-300">
+      <div className="container mx-auto py-8">
+        <Suspense fallback={<LoadingSpinner />}>
+          <ProductGrid />
+        </Suspense>
       </div>
-    );
-  } catch (error) {
-    console.error('Error fetching initial products:', error);
-    return <div className="text-red-500">Failed to load products. Please try again later.</div>;
-  }
+    </main>
+  );
 }

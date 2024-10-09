@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getProducts } from "../lib/api";
 import ProductCard from "./ProductCard";
 import LoadingSpinner from "./LoadingSpinner";
-import Pagination from "./pagination";
+import Pagination from "./Pagination";
 import PriceSort from "./PriceSort";
 import CategoryFilter from "./CategoryFilter";
 /**

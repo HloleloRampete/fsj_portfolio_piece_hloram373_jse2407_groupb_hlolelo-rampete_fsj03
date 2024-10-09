@@ -64,7 +64,6 @@ export default function ProductDetails({ product }) {
         </div>
       </div>
 
-
       {/* Reviews Section */}
       <div className="mt-16">
         <div className="flex justify-between items-center mb-6">

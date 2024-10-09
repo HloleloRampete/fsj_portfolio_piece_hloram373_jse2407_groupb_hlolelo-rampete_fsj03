@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export const metadata = {
-  title: "FluxStore - Online Shopping | SA's online store",
+  title: "MandoZA | SA's online store",
   description:
-    "Discover a wide range of products at FluxStore. From electronics to fashion, find everything you need at great prices.",
+    "Discover a wide range of products at MandoZA.",
 };
 /**
  * Home page component.

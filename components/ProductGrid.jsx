@@ -8,16 +8,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import Pagination from "./Pagination";
 import PriceSort from "./PriceSort";
 import CategoryFilter from "./CategoryFilter";
-/**
- * ProductGrid Component
- *
- * This component displays a grid of product cards with pagination.
- * It fetches products based on the current page and handles page navigation.
- *
- * @param {Object} props - The component props
- * @param {number} props.totalPages - The total number of pages of products
- * @returns {JSX.Element} A div containing the product grid and pagination controls
- */
+
 export default function ProductGrid() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -36,10 +27,7 @@ export default function ProductGrid() {
   const order = searchParams.get("order") || "asc";
   const limit = 20;
 
-  /**
-   * Determines if any filters are active
-   * @type {boolean}
-   */
+  
   const isFilterActive = useMemo(() => {
     return (
       category !== "" || search !== "" || sortBy !== "id" || order !== "asc"
@@ -51,10 +39,7 @@ export default function ProductGrid() {
     fetchProducts();
   }, [currentPage, category, search, sortBy, order]);
 
-  /**
-   * Fetches products for the given page
-   * @param {number} page - The page number to fetch
-   */
+  
   async function fetchProducts() {
     try {
       setLoading(true);
@@ -79,10 +64,7 @@ export default function ProductGrid() {
     }
   }
 
-  /**
-   * Handles page change by updating the URL
-   * @param {number} newPage - The new page number to navigate to
-   */
+  
   const handlePageChange = (newPage) => {
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("page", newPage.toString());
@@ -100,20 +82,6 @@ export default function ProductGrid() {
   if (error) {
     throw error;
   }
-
-  // if (error) {
-  //     return (
-  //     <div className="text-center py-10">
-  //       <p className="text-red-500 mb-4">{error}</p>
-  //       <button
-  //         onClick={fetchProducts}
-  //         className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors"
-  //       >
-  //         Retry
-  //       </button>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="space-y-6">

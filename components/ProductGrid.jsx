@@ -27,19 +27,18 @@ export default function ProductGrid() {
   const order = searchParams.get("order") || "asc";
   const limit = 20;
 
-  
+  // Check if any filter is active
   const isFilterActive = useMemo(() => {
     return (
       category !== "" || search !== "" || sortBy !== "id" || order !== "asc"
     );
   }, [category, search, sortBy, order]);
 
-  // Fetch products when the current page changes
+  // Fetch products whenever the filters, sorting, or pagination change
   useEffect(() => {
     fetchProducts();
   }, [currentPage, category, search, sortBy, order]);
 
-  
   async function fetchProducts() {
     try {
       setLoading(true);
@@ -51,11 +50,10 @@ export default function ProductGrid() {
         sortBy,
         order,
       });
-      setProducts(data);
-      setTotalPages(Math.ceil(data.length / limit));
-      setIsLastPage(
-        data.length < limit || currentPage === Math.ceil(data / limit)
-      );
+      
+      setProducts(data.products || []); // Use data.products if your API returns an object with products
+      setTotalPages(Math.ceil(data.totalCount / limit)); // Ensure you handle total count from the API correctly
+      setIsLastPage(currentPage === Math.ceil(data.totalCount / limit));
       setError(null);
     } catch (err) {
       setError("Failed to load products. Please try again later.");
@@ -64,23 +62,26 @@ export default function ProductGrid() {
     }
   }
 
-  
+  // Handle page changes
   const handlePageChange = (newPage) => {
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("page", newPage.toString());
     router.push(`/?${currentParams.toString()}`);
   };
 
+  // Reset filters
   const handleReset = () => {
     setIsReset(true);
     router.push("/");
     setTimeout(() => setIsReset(false), 100);
   };
+
   // Show loading spinner while fetching products
   if (loading) return <LoadingSpinner />;
-  // Throw error if product fetch fails
+
+  // Render error message instead of throwing
   if (error) {
-    throw error;
+    return <div className="text-center text-red-500 py-10">{error}</div>;
   }
 
   return (
@@ -93,20 +94,12 @@ export default function ProductGrid() {
           <PriceSort isReset={isReset} />
         </div>
       </div>
+
       {isFilterActive && (
         <div className="flex flex-col md:flex-row justify-end items-end mb-6">
           <button
             onClick={handleReset}
-            className="
-            px-6 py-2 
-            bg-teal-500 text-gray-100 
-            rounded-md 
-            transition-all duration-300 ease-in-out
-            transform hover:scale-105 hover:bg-teal-600 
-            active:scale-95 active:bg-teal-400
-            focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-50
-            shadow-md hover:shadow-lg
-            "
+            className="px-6 py-2 bg-teal-500 text-gray-100 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-teal-600 active:scale-95 active:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-50 shadow-md hover:shadow-lg"
           >
             <span className="flex items-center justify-center">
               <svg

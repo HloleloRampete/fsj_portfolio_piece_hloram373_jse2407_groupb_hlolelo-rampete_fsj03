@@ -28,13 +28,13 @@ export default function ProductCard({ product }) {
       <div className="border rounded-lg overflow-hidden shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl">
         {/* Image with controls */}
         <div className="relative">
-        {/* <Image
-            src={images}
-            alt={title}
-            layout="fill"
-            objectFit="contain"
-            className="transition duration-300 hover:opacity-90"
-          /> */}
+          {/* <Image
+              src={images}
+              alt={title}
+              layout="fill"
+              objectFit="contain"
+              className="transition duration-300 hover:opacity-90"
+            /> */}
           <Gallery images={images} />
           {/* {images.length > 1 && (
             <>

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 /**
- * A component that renders a search bar.
+ * A React component that renders a search bar.
  * @param {Object} props - The component props.
  * @param {boolean} props.isVisible - Determines whether the search bar should be visible.
  * @param {function} props.onToggle - A function to toggle the visibility of the search bar.
@@ -20,6 +20,7 @@ export default function SearchBar({ isVisible, onToggle }) {
    * Updates the search state when the searchParams change.
    */
   useEffect(() => {
+    // Updating search state when searchParams change
     const currentSearch = searchParams.get("search") || "";
     if (currentSearch !== search) {
       setSearch(currentSearch);
@@ -83,6 +84,7 @@ export default function SearchBar({ isVisible, onToggle }) {
 
   return (
     <form onSubmit={handleSubmit} className="relative w-full">
+      {/* Main container for the search bar */}
       <div className="flex items-center justify-end">
         <div
           className={`
@@ -91,6 +93,7 @@ export default function SearchBar({ isVisible, onToggle }) {
             ${isVisible ? "w-full" : "w-10"}
           `}
         >
+          {/* Search input field */}
           <input
             ref={searchInputRef}
             id="search"
@@ -106,6 +109,7 @@ export default function SearchBar({ isVisible, onToggle }) {
               ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"}
             `}
           />
+          {/* Search button */}
           <button
             type="button"
             onClick={onToggle}
@@ -118,6 +122,7 @@ export default function SearchBar({ isVisible, onToggle }) {
               ${isVisible ? "rounded-r-full border border-l-0 border-gray-300" : "rounded-full"}
             `}
           >
+            {/* Search icon SVG */}
             <svg
               className={`w-5 h-5 transition-transform duration-300 ${isVisible ? "rotate-90" : ""}`}
               xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +135,7 @@ export default function SearchBar({ isVisible, onToggle }) {
                 clipRule="evenodd"
               />
             </svg>
+            {/* Screen reader text for the search button */}
             <span className="sr-only">Toggle search</span>
           </button>
         </div>

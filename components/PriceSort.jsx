@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 /**
- * A component that renders a price sort dropdown.
+ * A React component that renders a price sort dropdown.
  * @param {Object} props - The component props.
  * @param {boolean} props.isReset - Determines whether the sort order should be reset to default.
  * @returns {JSX.Element} - The price sort dropdown component.
  */
-export default function PriceSorting({ isReset }) {
+export default function PriceSort({ isReset }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [sortOrder, setSortOrder] = useState(

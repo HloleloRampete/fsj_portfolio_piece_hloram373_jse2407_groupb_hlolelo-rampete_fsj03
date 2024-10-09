@@ -5,14 +5,6 @@ import ReviewList from "../../../components/Reviews";
 import Loading from "../[id]/loading";
 import BackButton from "../../../components/BackButton";
 
-/**
- * Generating metadata for the product page.
- * @async
- * @function generateMetadata
- * @param {Object} params - The parameters object.
- * @param {string} params.id - The ID of the product.
- * @returns {Promise<Object>} The metadata object for the product.
- */
 export async function generateMetadata({ params }) {
   const product = await getProduct(params.id);
   return {
@@ -28,15 +20,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-/**
- * Renders the product page.
- * @async
- * @function ProductPage
- * @param {Object} props - The component props.
- * @param {Object} props.params - The route parameters.
- * @param {string} props.params.id - The ID of the product.
- * @returns {Promise<JSX.Element>} The rendered product page.
- */
 export default async function ProductPage({ params }) {
   const product = await getProduct(params.id);
 

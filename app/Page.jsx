@@ -7,10 +7,7 @@ export const metadata = {
   description:
     "Discover a wide range of products at MandoZA.",
 };
-/**
- * Home page component.
- * @returns {JSX.Element} The home page structure with a ProductGrid.
- */
+
 export default function Home() {
   return (
     // Main content area with styling for minimum height, padding, and background

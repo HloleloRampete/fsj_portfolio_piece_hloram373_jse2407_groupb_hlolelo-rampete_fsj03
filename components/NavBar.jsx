@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+
 export default function NavBar() {
   return (
     <nav className="bg-blue-600 text-white">
